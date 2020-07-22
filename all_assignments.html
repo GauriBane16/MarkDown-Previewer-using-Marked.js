@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JS Assignments</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.1.1/marked.min.js"></script>
+        <style>
+            #pattern{
+                display: block;
+            }
+            #visitor{
+                display: none;
+            }
+            #previewer{
+                display: none;
+                width:100%;
+                height:100%;
+            }
+            #editor{
+                float:left;
+                width:45%;
+                height:70%;
+                background-color: rgb(240, 245, 247);
+                border:1px solid black;
+                margin:10px;
+                padding: 10px;
+
+            }
+            #markedOutput{
+                float:right;
+                width:45%;
+                height:70%;
+                background-color: rgb(240, 245, 247);
+                border:1px solid black;
+                margin:10px;
+                padding: 10px;
+            }
+        </style>
+        <script>
+            function onSelectProgram(){
+                var selected=document.getElementById('selectprg').value;
+                switch(selected){
+                    case '1':
+                      document.getElementById('pattern').style.display="block";
+                      document.getElementById('visitor').style.display="none";
+                      document.getElementById('previewer').style.display="none";
+                    break;  
+                    case '2':
+                      document.getElementById('pattern').style.display="none";
+                      document.getElementById('visitor').style.display="block";
+                      document.getElementById('previewer').style.display="none";
+                    break;
+                    case '3':
+                      document.getElementById('pattern').style.display="none";
+                      document.getElementById('visitor').style.display="none";
+                      document.getElementById('previewer').style.display="block";
+                    break;
+
+                }
+            }
+
+            function printPatter(){
+                document.getElementById('result1').innerHTML=""
+                var n=document.getElementById('limit').value;
+                if(n<2 || n>100){
+                    alert("Please enter value between 1 and 101.");
+                    return;
+                }
+
+                var space=n;
+                for(i=1;i<=n;i++){
+                    for(j=1;j<=space;j++){
+                        document.getElementById('result1').insertAdjacentHTML('beforeend','&nbsp;&nbsp;&nbsp;');
+                    }
+                
+                space--;
+                for(j=1;j<=i;j++){
+                        document.getElementById('result1').insertAdjacentHTML('beforeend','<strong>*</strong>');
+                        if(j!=i)
+                            document.getElementById('result1').insertAdjacentHTML('beforeend','&nbsp;');
+                    }
+                    document.getElementById('result1').insertAdjacentHTML('beforeend','</br>');
+                }
+            }
+
+            function welcomeVisitor(){
+                document.getElementById('result2').innerHTML=""
+                var username=document.getElementById('username').value.trim();
+                if(username.length<2 || username.length>100){
+                    alert("Name should be minimum 2 character and maximum 100 chaeracters.");
+                    return;
+                }
+                var welcome_str='<strong>Hello '+username+' .</strong>';
+                document.getElementById('result2').innerHTML=welcome_str
+            }
+        
+            function renderTextFormat(){
+                var enteredText=document.getElementById('marked').value.trim();
+                document.getElementById('output').innerHTML=marked(enteredText);
+            }
+         
+        </script>
+    </head>
+    <body>
+        <strong>Select Program : </strong> &nbsp;
+        <select id="selectprg" onchange="onSelectProgram()">
+            <option value="1">Pattern Program</option>
+            <option value="2">Welcome Visitor</option>
+            <option value="3">MarkDown PreViewer</option>
+        </select>
+        <div id="pattern">
+            <h3>Assignment 1</h3>
+            <strong>Enter n: </strong>&nbsp;
+            <input type="number" min="2" max="100" id="limit" /> &nbsp;
+            <input type="button" value="Output" onclick="printPatter()" />
+            <div id="result1"></div>
+        </div>
+        <div id="visitor" >
+            <h3>Assignment 2</h3>
+            <strong>Enter your name: </strong>&nbsp;
+            <input type="text" min="2" max="100" id="username" /> &nbsp;
+            <input type="button" value="Output" onclick="welcomeVisitor()" />
+            <div id="result2"></div>
+        </div>
+        <div id="previewer" >
+            <h3>Assignment 3</h3>
+            <div id="editor">
+                <div id="header"></div>
+                # Hints </br></br>
+                ## Make List </br>
+                - Item 1 </br>
+                - Item 2 </br>
+                - Item 3 </br></br>
+                #### Make it **bold** or make it *italic* </br></br>
+                <strong>Enter text: </strong>&nbsp;
+                <input type="text"  id="marked"  onkeyup="renderTextFormat()" />
+                <br><br></br></br>
+            </div>
+            <div id="markedOutput">
+                <div id="hints"></div>
+                <div id="output"></div>
+            </div>
+            <script>
+                document.getElementById('header').innerHTML=marked('**Marked Input Editor** \n <hr>');
+                document.getElementById('hints').innerHTML=marked('**Marked Previewer** \n <hr> \n # Hints\n ## Make List\n- Item 1\n- Item 2\n- Item 3\n#### Make it **bold** or make it *italic* \n#### Formated Output Text Will be Here \n');
+            </script>
+        </div>
+    </body>
+</html>
